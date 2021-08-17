@@ -25,45 +25,51 @@ parentDiv.classList.add("card")
     weatherIcon.setAttribute("src",`http://openweathermap.org/img/w/${data.weather[0].icon}.png`)
    
 
-     var temp = document.createElement("p")
-     temp.textContent= `temp: ${data.main.temp}`
+     var temp = document.createElement("h4")
+     temp.textContent= `Temp: ${data.main.temp}`
 
    var humidity = document.createElement("h4")
-   humidity.textContent=`humidity: ${data.main.humidity}`
+   humidity.textContent=`Humidity: ${data.main.humidity}`
 
     var windSpeed = document.createElement("h4")
     windSpeed.textContent= `Wind Speed: ${data.wind.speed}`
-    parentDiv.append(cityName, weatherIcon, temp, humidity, windSpeed)
+     parentDiv.append(cityName, weatherIcon, temp, humidity, windSpeed)
 
 
 
     todayDiv.append(parentDiv)
     oneCallUv(data.coord.lat, data.coord.lon)
-    console.log(data)});
+    });
 
 }
 
 function oneCallUv (lat, lon){
-  fetch ("https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&appid=a21bd5083b0e1585843e6ff136f49bca")
+  fetch ("https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&appid=a21bd5083b0e1585843e6ff136f49bca")
   .then(response => response.json())
   .then(data => {
     console.log(data)
     var todayDiv = document.querySelector("#today")
-    var todayUv = document.createElement("h2")
-    todayUv.textContent= `uv index: ${data.current.uvi}`
+    var todayUv = document.createElement("h4")
+    todayUv.textContent= `UV index: ${data.current.uvi}`
+  
 for(var i=1; i< data.daily.length-2; i++){
 
 var forecastDiv = document.querySelector("#forecast")
 
   var forecastTemp = document.createElement("h4")
-  forecastTemp.textContent= `${data.daily[i].temp.day}`
+  forecastTemp.textContent= ` ${data.daily[i].temp.day}`
 
   var forecastHumid = document.createElement("h4")
-  forecastHumidity.textContent= `${data.}`
+  forecastHumid.textContent= `${data.daily[i].humidity}`
 //create elements for each one
 var forecastWind = document.createElement("h4")
+forecastWind.textContent= ` ${data.daily[i].weather.wind_speed}`
+
 var forecastUv = document.createElement("h4")
+forecastUv.textContent=`${data.daily[i].uvi}`
+
 var forecastIcon = document.createElement("h4")
+forecastIcon.textContent= `${data.daily[i].icon}`
 
 
 
@@ -71,12 +77,16 @@ forecastDiv.append(forecastTemp, forecastWind, forecastHumid,forecastUv,forecast
 
 }
 
-todayDiv.append(todayUv);
-  })
-  
+ todayDiv.append(todayUv);
+
+ var fiveDayContainerEl= document.querySelector("#five-day-container");
+ fiveDayContainerEl.append(todayDiv);
+ 
+   })
+   
 }
 
 
-// to clear the old content to show new content use
-// repoContainerEl.textContent = "";
-// repoSearchTerm.textContent = searchTerm;
+ // to clear the old content to show new content use
+ // repoContainerEl.textContent = "";
+ // repoSearchTerm.textContent = searchTerm;
